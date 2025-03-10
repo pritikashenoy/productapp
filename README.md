@@ -1,6 +1,6 @@
 # Product CRUD Spring Boot Application
 
-This is a Spring Boot application that provides basic CRUD operations for a product entity, complete with authentication, rate-limiting, and a Swagger API interface. The application is secured with basic authentication and leverages **Bucket4j** for rate limiting based on the user's IP address. The rate-limiting configuration is customizable through application properties.
+This is a Spring Boot application that provides basic CRUD operations for a product entity, complete with authentication, rate-limiting, and a Swagger API interface. The application is secured with basic authentication and leverages **Bucket4j** for rate limiting based on the user's IP address. The rate-limiting configuration is customizable through application properties. This application focuses solely on the backend services. The application can be accessed and interacted with through the provided APIs.
 
 ## Features
 
@@ -23,7 +23,7 @@ This is a Spring Boot application that provides basic CRUD operations for a prod
 - `GET /api/v1/products`: Retrieve all products (No authentication required).
 - `GET /api/v1/products/{id}`: Retrieve a product by ID (Authentication required).
 - `POST /api/v1/products`: Create a new product (Authentication required).
-- `PUT /api/v1/products/{id}`: Update an existing product (Authentication required).
+- `PATCH /api/v1/products/{id}`: Update price of an existing product (Authentication required).
 - `DELETE /api/v1/products/{id}`: Delete a product (Authentication required).
 
 ## Deployment
