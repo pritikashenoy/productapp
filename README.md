@@ -20,7 +20,7 @@ This is a Spring Boot application that provides basic CRUD operations for a prod
 ## Endpoints
 
 - `POST /api/v1/auth/register`: Register a new user.
-- `GET /api/v1/products`: Retrieve all products (No authentication required).
+- `GET /api/v1/products`: Retrieve all products (No authentication required. Note: No trailing slash).
 - `GET /api/v1/products/{id}`: Retrieve a product by ID (Authentication required).
 - `POST /api/v1/products`: Create a new product (Authentication required).
 - `PATCH /api/v1/products/{id}`: Update price of an existing product (Authentication required).
