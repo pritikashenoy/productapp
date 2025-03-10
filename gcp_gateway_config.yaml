@@ -1,0 +1,197 @@
+swagger: "2.0"
+info:
+  title: OpenAPI definition
+  version: v0
+host: # Service URL
+basePath: /
+schemes:
+  - http
+paths:
+  /api/v1/products:
+    get:
+      tags:
+        - product-controllerv-1
+      operationId: getAllProducts
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/ProductDTO"
+      x-google-backend:
+        address:  # Backend service URL
+        path_translation: APPEND_PATH_TO_ADDRESS
+        disable_auth: True
+
+    post:
+      security:
+        - api_key: []
+      tags:
+        - product-controllerv-1
+      operationId: addProduct
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/ProductDTO"
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+      x-google-backend:
+        address: # Backend service URL
+        path_translation: APPEND_PATH_TO_ADDRESS
+        disable_auth: True
+
+  /api/v1/auth/register:
+    post:
+      tags:
+        - authentication-controllerv-1
+      summary: Register a user
+      description: Register a user using username and password
+      operationId: register
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/RegisterUserDTO"
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      x-google-backend:
+        address: # Backend service URL
+        path_translation: APPEND_PATH_TO_ADDRESS
+        disable_auth: True
+
+  /api/v1/auth/login:
+    post:
+      tags:
+        - authentication-controllerv-1
+      summary: Login a user
+      description: Login a user using username and password
+      operationId: login
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/LoginRequestDTO"
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      x-google-backend:
+        address:  # Backend service URL
+        path_translation: APPEND_PATH_TO_ADDRESS
+        disable_auth: True
+
+  /api/v1/products/{id}:
+    get:
+      security:
+        - api_key: []
+      tags:
+        - product-controllerv-1
+      operationId: getProductByID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/ProductDTO"
+      x-google-backend:
+        address:
+        path_translation: APPEND_PATH_TO_ADDRESS
+        disable_auth: True
+
+    delete:
+      security:
+        - api_key: []
+      tags:
+        - product-controllerv-1
+      operationId: deleteProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: OK
+      x-google-backend:
+        address:   # Backend service URL
+        path_translation: APPEND_PATH_TO_ADDRESS
+        disable_auth: True
+
+    patch:
+      security:
+        - api_key: []
+      tags:
+        - product-controllerv-1
+      operationId: updateProductPrice
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/UpdateProductDTO"
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/ProductDTO"
+      x-google-backend:
+        address:   # Backend service URL
+        path_translation: APPEND_PATH_TO_ADDRESS
+        disable_auth: True
+
+definitions:
+  ProductDTO:
+    type: object
+    properties:
+      name:
+        type: string
+        maxLength: 100
+        minLength: 2
+      price:
+        type: number
+        format: float
+    required:
+      - name
+  RegisterUserDTO:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+  LoginRequestDTO:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+    required:
+      - password
+      - username
+  UpdateProductDTO:
+    type: object
+    properties:
+      price:
+        type: number
+        format: float

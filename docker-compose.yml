@@ -1,0 +1,32 @@
+version: '3.8'
+
+# TO DO : Move username and password to .env file
+services:
+  # PostgreSQL service
+  postgres:
+    image: postgres:latest  # Use the latest PostgreSQL image
+    container_name: postgres-db
+    environment:
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=dbpassword
+      - POSTGRES_DB=mydb
+    ports:
+      - "5432:5432"  # Expose port 5432 for the database
+    volumes:
+      - postgres-data:/var/lib/postgresql/data  # Persistent storage
+
+  # Java application service
+  product-listing-app:
+    build: .  # Build the Dockerfile in the current directory
+    container_name: product-listing-app
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/mydb
+      - SPRING_DATASOURCE_USERNAME=dbuser
+      - SPRING_DATASOURCE_PASSWORD=dbpassword
+    ports:
+      - "8080:8080"  # Expose port 8080 for the application
+    depends_on:
+      - postgres  # Ensure the database is ready before starting the app
+
+volumes:
+  postgres-data:  # Define a volume for PostgreSQL persistence
