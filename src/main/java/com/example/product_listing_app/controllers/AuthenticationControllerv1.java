@@ -33,25 +33,28 @@ public class AuthenticationControllerv1 {
     Logger logger = LoggerFactory.getLogger(AuthenticationControllerv1.class);
 
 
-    @PostMapping(value = "/login", consumes = "application/json")
-    @Operation(summary = "Login a user", description = "Login a user using username and password")
-    public ResponseEntity<String> login(@RequestBody @Valid LoginRequestDTO loginUser) {
-        try {
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    loginUser.getUsername(), loginUser.getPassword());
-            // Authenticate the user
-            Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
+    // The login method will generate a token for the user if the user is authenticated successfully.
+    // This is work in progress and needs end to end testing.
 
-            // Generate the token
-            UserDetails authenticatedUser = (UserDetails) authentication.getPrincipal();
-            String token = JWTUtil.generateToken(authenticatedUser.getUsername());
-
-            return ResponseEntity.ok(token);
-        } catch (AuthenticationException e) {
-            logger.error("Error authenticating user: {}", e.getMessage());
-            return ResponseEntity.status(401).body("Invalid username or password");
-        }
-    }
+//    @PostMapping(value = "/login", consumes = "application/json")
+//    @Operation(summary = "Login a user", description = "Login a user using username and password")
+//    public ResponseEntity<String> login(@RequestBody @Valid LoginRequestDTO loginUser) {
+//        try {
+//            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+//                    loginUser.getUsername(), loginUser.getPassword());
+//            // Authenticate the user
+//            Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
+//
+//            // Generate the token
+//            UserDetails authenticatedUser = (UserDetails) authentication.getPrincipal();
+//            String token = JWTUtil.generateToken(authenticatedUser.getUsername());
+//
+//            return ResponseEntity.ok(token);
+//        } catch (AuthenticationException e) {
+//            logger.error("Error authenticating user: {}", e.getMessage());
+//            return ResponseEntity.status(401).body("Invalid username or password");
+//        }
+//    }
 
     @PostMapping(value = "/register", consumes = "application/json")
     @Operation(summary = "Register a user", description = "Register a user using username and password")
